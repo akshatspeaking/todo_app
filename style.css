@@ -1,0 +1,179 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+
+/* Custom Styles */
+
+
+
+.container {
+   font-family: "comic-sans";
+   margin: 0 auto;
+   display: flex;
+   flex-flow: column nowrap;
+   align-items: center;
+   justify-content: center;
+   width: 600px;
+   border: 1px solid grey;
+   padding: 1rem;
+   margin-top: 3rem;
+   border-radius: 20px;
+   background-color: rgb(202, 200, 200);
+}
+
+ul {
+   
+   border: 1px solid black;
+   border-radius: 5px;
+   width: 100%;
+   color: rgb(26, 25, 25);
+   font-weight: 500;
+   font-size: 1.5rem;
+}
+
+li {
+   list-style-type: none;
+   display: flex;
+   flex-flow: row nowrap;
+   justify-content: space-around;
+   padding: 1rem 0;
+}
+
+.delete {
+   visibility: hidden;
+   border: none;
+   background: none;
+   color: black;
+   font-size: 1.2rem;
+   justify-self: self-end;
+}
+
+.delete:hover {
+   scale: 1.35;
+}
+
+li:hover .delete {
+   visibility: visible;
+   color: red;
+   cursor: pointer;
+}
+
+h1 {
+   font-size: 5rem;
+   padding: 2rem;
+   color: rgb(5, 126, 35);
+}
+
+#textin {
+   width: 80%;
+   margin: 2rem 0;
+   border: 2px solid aquamarine;
+   border-radius: 5px;
+   font-size: 2rem;
+   padding: 0.5rem;
+}
+
+#textin:focus {
+   border-color: tomato;
+}
+
+.checkbox:hover {
+   cursor: pointer;
+}
+
+.inputSection {
+   display: flex;
+   flex-flow: row nowrap;
+   justify-content: space-evenly;
+}
+
+i {
+font-size: 2rem;
+margin-top: 3rem;
+}
+
+i:hover {
+transform: scale(0.9);
+opacity: 0.8;
+cursor: pointer;
+transition: ease-in-out;
+   }
+
+span {
+   text-align: left;
+   width: 70%;
+}
+
+.footer {
+   display: flex;
+   flex-flow: row nowrap;
+   font-size: 1rem;
+   justify-content: space-between;
+   width: 100%;
+   align-items: center;
+   margin: 1rem;
+}
+
+.footer button {
+   border: 1 px solid white
+}
+
+.footer button:hover {
+   /* border: 1px solid aquamarine; */
+   cursor: pointer;
+
+}
+
+.clr {
+   visibility: hidden;
+}
+
+del {
+   opacity: 0.7;
+}
