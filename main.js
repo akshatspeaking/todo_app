@@ -1,216 +1,175 @@
-let clearBtn = document.createElement("button");
-clearBtn.innerText = "Clear Completed";
-let container = document.querySelector(".container")
-let text = document.querySelector("input");
-let list = document.querySelector("ul")
 
+let sst = JSON.parse(localStorage.getItem("items")) || [];
+updateUI(JSON.parse(localStorage.getItem("items")));
+let input = document.querySelector("#textin");
+let list = document.querySelector("ul");
+input.addEventListener("keyup", addTodo);
+document.querySelector(".all").addEventListener("click", showAll)
+document.querySelector(".actv").addEventListener("click", showActive)
+document.querySelector(".completed").addEventListener("click", showCompleted)
+document.querySelector(".clr").addEventListener("click", clearCompleted)
+document.querySelector(".fas").addEventListener("click", selectAll)
 
-// CREATE NOTE ON ENTER PRESS
-text.addEventListener("keyup", addToList);
-
-function addToList (e) {
+// ADD new note to SST
+function addTodo(e) {
+   let inputText = input.value.trim();
+   if (e.keyCode == 13 && inputText !== "") {
+      sst.push({note: input.value, isDone: false});
+      localStorage.setItem("items", JSON.stringify(sst));
+      input.value = "";
+      updateUI(sst); 
+   }
    
-   if(e.keyCode === 13 && text.value.trim()) {
+};
 
+//FN - Display/Refresh SST items on UI
+function updateUI(arr) {
 
-      // Adding new note to list
+   let input = document.querySelector("#textin");
+   let list = document.querySelector("ul");
+
+   localStorage.setItem("items", JSON.stringify(sst));
+
+   list.innerHTML = "";
+   
+   arr.forEach((obj, i) => {
+
+      // ADD new note to UL
+
+      obj.id = i;
       let item = document.createElement("li");
-      let check = document.createElement("input");
-      let note = document.createElement("span");
-      let cross = document.createElement("button");
-    
-      check.type = "checkbox";
-      check.className = "checkbox"
-      cross.innerText = "X";
-      cross.className = "delete"
-    
-      note.innerText = text.value;
-      
-      item.append(check);
-      item.append(note);
-      item.append(cross);
+      item.setAttribute("data-id", obj.id);
+      let checkbox = document.createElement("input");
+      checkbox.type = "checkbox";
+      checkbox.classList.add("check")
+      checkbox.classList.add("checkbox");
+      checkbox.checked = obj.isDone;
+      let noteText = document.createElement("p");
+      noteText.classList.add("note")
+      let cross = document.createElement("span");
+      cross.innerText = `X`;
+      cross.classList.add("span")
+      cross.classList.add("delete")
+
+      item.append(checkbox, noteText, cross);
       list.append(item);
 
-                            //total number of LIs - number of selected LIs > push inside footer span
-                            numOfItems();
+      if (obj.isDone) {
+         noteText.innerHTML = "<s>" + obj.note + "</s>";
+      }
+      else {noteText.innerHTML = obj.note;}   
+   })
+
+   //EVENT LISTENERS on List Items
+   document.querySelectorAll(".check").forEach(x => {x.addEventListener("click", checkBoxClick)})
+   document.querySelectorAll(".span").forEach(x => {x.addEventListener("click", crossClick)}) 
+   document.querySelectorAll(".note").forEach(x => {x.addEventListener("dblclick", editNote)}) 
+
+   // No of items left
+   let noLeft = 0;
+   sst.forEach((obj) => {
+      if (!obj.isDone) {noLeft++;}
+   });
+   document.querySelector(".itemsLeft").innerText = noLeft;
+
+   if (document.querySelectorAll("li").length > 0) {
+      document.querySelector(".fas").style.visibility = "visible";
+   }
+   if (document.querySelectorAll("li").length == 0) {
+      document.querySelector(".fas").style.visibility = "hidden";
+   }
 
 
-      // DELETE BY X BUTTON
-      cross.addEventListener("click", (e) => {
-      e.target.parentElement.remove();
-
-      displayFooter();
-      clearSelected();
-
-               //total number of LIs - number of selected LIs > push inside footer span
-               numOfItems();
-                  
-      })
-      
-      // STRIKETHROUGH IF RADIO CHECKED/UNCHECKED
-      check.addEventListener("click", (e) => {
-
-         if (e.target.checked == true) {
-            let t = e.target.nextElementSibling.innerText;
-            e.target.nextElementSibling.innerHTML = "<del> " + t + " </del>";
-            e.target.classList.add("completed");
-
-
-               //total number of LIs - number of selected LIs > push inside footer span
-              
-                  let numCompleted = document.querySelector("ul").childElementCount - document.querySelectorAll(".completed").length;
-                  document.querySelector(".itemsLeft").innerText = String(numCompleted);
-
-                  clearSelected();
-
-         }
-         if (e.target.checked == false) {
-            let t = e.target.nextElementSibling.innerText;
-            e.target.nextElementSibling.outerHTML = "<span>"+t+"</span>";
-            e.target.classList.remove("completed");
-        console.log("test");
-                        //total number of LIs - number of selected LIs > push inside footer span
-                        numOfItems();
-                        clearSelected();
-         }
-      })
-
-displayFooter();
-clearSelected();
-
-      text.value = ""
+   
+}
+// FN - on checkbox Complete checked items
+function checkBoxClick(e) {
+   let id = e.target.parentElement.dataset.id;
+   sst[id].isDone = !sst[id].isDone;
+   updateUI(sst);
+   if (document.querySelectorAll("li").length == sst.filter(x => (x.isDone)).length) {
+      document.querySelector(".fas").click();
+   }
+   if (document.querySelectorAll("li").length == sst.filter(x => (!x.isDone)).length) {
+      document.querySelector(".fas").click();
    }
 }
 
-//SELECT ALL ARROW
-let i = false;
-document.querySelector(".fas").addEventListener("click", () => {
-  
-   if(i == false){
-      i = true;
-      document.querySelector(".fas").style.color = "tomato";
-      document.querySelectorAll("li").forEach(x => {
+//FN - DELETE X SPAN
+function crossClick(e) {
+   let id = e.target.parentElement.dataset.id;
+   sst.splice(id, 1);
+   updateUI(sst);
+}
 
-         if (x.children[0].checked == false) {
+//footer part
+// show All
+function showAll() {
+   updateUI(sst);
+}
 
-         x.children[0].classList.add("completed");
-         x.children[0].checked = true;
-         let t = x.children[1].innerText;
-         x.children[1].innerHTML = "<del> " + t + " </del>"
-         
-         
-         }
-   
-      })
+// show active
+function showActive() {
+   updateUI(sst.filter(x => !x.isDone));
+}
+
+//show completed
+function showCompleted() {
+   updateUI(sst.filter(x => x.isDone));
+}
+
+//Clear completed
+function clearCompleted() {
+   sst = sst.filter(obj => obj.isDone == false)
+   updateUI(sst);
+   document.querySelector(".fas").click();
+
+}
+
+// Select All button
+
+var cnt = false;
+function selectAll() {
+   if(!cnt) {
+      sst.forEach(x => {x.isDone = true});
+      updateUI(sst);
+      cnt = true;
+      document.querySelector(".fas").style.color = "#737373";
    }
-  else if(i == true){
-   i = false;
-   document.querySelector(".fas").style.color = "";
-      document.querySelectorAll("li").forEach(x => {
+   else if(cnt) {
+      sst.forEach(x => {x.isDone = false});
+      updateUI(sst);
+      cnt = false;
+      document.querySelector(".fas").style.color = "#e6e6e6"
+   }
+}
 
-         if (x.children[0].checked == true) {
-       
-         x.children[0].classList.remove("completed");
-        x.children[0].checked = false;
-        let t = x.children[1].innerText;
-        x.children[1].outerHTML = "<span>"+t+"</span>";
-        
+// double click edit
+function editNote(e) {
+   let para = e.target;
+   let tempId = e.target.parentElement.getAttribute("data-id");
+   para.style.display = "none";
+   let tempInput = document.createElement("input");
+   tempInput.classList.add("tempInput")
+   tempInput.value = para.innerText;
+   let nextEl = e.target.parentElement.children[2];
+   e.target.parentElement.insertBefore(tempInput, nextEl);
+   tempInput.focus();
+   tempInput.nextElementSibling.style.visibility = "hidden";
+   tempInput.parentElement.children[0].style.visibility = "hidden";
 
-      }
-
-      })
-    
+   tempInput.onblur = () => {
+      sst[tempId].note = tempInput.value;
+      para.style.display = "inline-block";
+      tempInput.style.display = "none";
+      updateUI(sst);
    }
 
-
-   numOfItems();
-   clearSelected();
-})
-
-
-
-      // Footer event listeners
-// ALL - defauly, display all LIs
-
-document.querySelector(".all").addEventListener("click", () => {
-
-   document.querySelectorAll("li").forEach(x => {x.style.display = "flex"});
-
-});
-
-
-
-// ACTIVe - display only unchecked LIs
-
-
-document.querySelector(".actv").addEventListener("click", () => {
-
-   document.querySelectorAll("li").forEach(x => {x.style.display = "flex"});
-
-   document.querySelectorAll(".completed").forEach(x => {
-      x.parentElement.style.display = "none";
-   })
-});
-
-
-
-// COMPLETED - display only checked LIs
-
-document.querySelector(".cmpltd").addEventListener("click", () => {
-
-   document.querySelectorAll("li").forEach(x => {x.style.display = "none"});
-
-   document.querySelectorAll(".completed").forEach(x => {
-      x.parentElement.style.display = "flex";
-   })
-});
-
-
-// CLEAR - remove li's with checked box
-
-document.querySelector(".clr").addEventListener("click", () => {
-   document.querySelectorAll(".completed").forEach(x => {
-      x.parentElement.remove();
-   })
-});
-
-
-
-
-      // if any checkbox is selected, display "Clear Selected" button, else display hidden
-
-      let clearSelected = function () {
-
-         if (document.querySelectorAll(".completed").length > 0) {
-            document.querySelector(".clr").style.visibility = "visible";
-         }
-         else if (!document.querySelectorAll(".completed") == false) {
-            document.querySelector(".clr").style.visibility = "hidden";
-         }
-
-      }
-
-
-            // if length of ul > 0, display footer, else default display hidden. < Put this inside Enter key eventlistener AND inside X delete eventlistener
-
-            let displayFooter = function () {
-
-            if (document.querySelector("ul").childElementCount > 0) {
-               document.querySelector(".footer").style.visibility = "visible";
-            }
-            else {
-               document.querySelector(".footer").style.visibility = "hidden";
-            }}
-
-
-                                          //total number of LIs - number of selected LIs > push inside footer span
-
-                                        let numOfItems = function () {
-                                          if (!document.querySelector(".completed") == true) {
-                                             document.querySelector(".itemsLeft").innerText = String(document.querySelector("ul").childElementCount);
-                                          }
-                                          else {
-                                             let numCompleted = document.querySelector("ul").childElementCount - document.querySelectorAll(".completed").length;
-                                             document.querySelector(".itemsLeft").innerText = String(numCompleted);}
-                                            
-                                        }
+   tempInput.addEventListener("keyup", (event) => {
+ 
+   if (event.keyCode == 13 && tempInput.value.trim() !== "") {
+      sst[tempId].note = tempInput.value;
+      para.style.display = "inline-block";
+      tempInput.style.display = "none";
+      updateUI(sst);
+   }}) }
