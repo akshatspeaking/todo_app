@@ -62,7 +62,6 @@ body {
    align-items: center;
    justify-content: center;
    width: 600px;
-   /* border-radius: 20px; */
    background-color: #f5f5f5;
    box-shadow: 1px 1px 10px grey;
 }
@@ -70,8 +69,6 @@ body {
 ul {
    display: flex;
    flex-flow: column nowrap;
-   /* border: 1px solid rgb(0, 82, 48); */
-   /* border-radius: 5px; */
    width: 100%;
    color: rgb(26, 25, 25);
    font-weight: 500;
@@ -107,14 +104,10 @@ li {
 
 li:hover .delete {
    visibility: visible;
-   color: #ead7d7
+   color: #ead7d7;
    cursor: pointer;  
 }
 
-li:hover {
-   /* border: 1px solid tomato; */
-   /* border-radius: 15px; */
-}
 
 h1 {
    font-size: 5rem;
@@ -126,12 +119,8 @@ h1 {
 
 #textin {
    width: 100%;
-   /* margin: 2rem 0; */
    border: none;
-   /* border-radius: 5px; */
    font-size: 1.5rem;
-   /* padding: 0.5rem; */
-   /* color: #fefefe; */
    background-color: #fefefe;;
 }
 
@@ -191,17 +180,10 @@ place-self: center;
 }
 
 .fas:hover {
-/* transform: scale(0.9); */
 cursor: pointer;
 color: #e6e6e6
    }
 
-.itemsLeft {
-   /* text-align: left; */
-   /* width: 70%; */
-   /* margin-left: 1rem; */
-   /* padding-bottom: 1rem; */
-}
 
 .footer {
    display: flex;
@@ -210,10 +192,9 @@ color: #e6e6e6
    justify-content: space-between;
    width: 100%;
    align-items: center;
-   /* margin: 1rem; */
-   /* visibility: hidden; */
    background-color: #fefefe;
-   color: #777794
+   color: #777794;
+   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2), 0 8px 0 -3px #f6f6f6, 0 9px 1px -3px rgba(0, 0, 0, 0.2), 0 16px 0 -6px #f6f6f6, 0 17px 2px -6px rgba(0, 0, 0, 0.2);
 }
 
 .footer p {
@@ -221,9 +202,7 @@ color: #e6e6e6
 }
 
 .footer button {
-   /* border: 1 px solid white */
    background-color: #fefefe;
-   /* border: 1px solid #ead7d7; */
    border: none;
    padding: 0.5rem;
    font-size: 1rem;
@@ -232,7 +211,6 @@ color: #e6e6e6
 }
 
 .footer button:hover {
-   /* border: 1px solid aquamarine; */
    cursor: pointer;
    border: 1px solid #ead7d7d3;
    border-radius: 5px;
@@ -256,10 +234,6 @@ color: #e6e6e6
 .footer a:hover {
    text-decoration: underline;
 }
-
-/* .clr {
-   visibility: hidden;
-} */
 
 s {
    opacity: 0.6;

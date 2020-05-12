@@ -87,12 +87,14 @@ function checkBoxClick(e) {
    let id = e.target.parentElement.dataset.id;
    sst[id].isDone = !sst[id].isDone;
    updateUI(sst);
-   if (document.querySelectorAll("li").length == sst.filter(x => (x.isDone)).length) {
-      document.querySelector(".fas").click();
+   if (document.querySelectorAll("li").length == sst.filter(x => x.isDone).length) {
+      cnt = true;
+      document.querySelector(".fas").style.color = "#737373";
    }
-   if (document.querySelectorAll("li").length == sst.filter(x => (!x.isDone)).length) {
-      document.querySelector(".fas").click();
-   }
+      if (document.querySelectorAll("li").length == sst.filter(x => !x.isDone).length) {
+         cnt = false;
+      document.querySelector(".fas").style.color = "#e6e6e6"
+      }
 }
 
 //FN - DELETE X SPAN
@@ -122,7 +124,9 @@ function showCompleted() {
 function clearCompleted() {
    sst = sst.filter(obj => obj.isDone == false)
    updateUI(sst);
-   document.querySelector(".fas").click();
+   if (document.querySelectorAll("li").length == 0){
+      document.querySelector(".fas").click();
+   }
 
 }
 
